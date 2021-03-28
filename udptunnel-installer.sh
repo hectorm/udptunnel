@@ -12,5 +12,4 @@ export LDFLAGS='-Wl,-pie -Wl,-z,defs -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack'
 export LC_ALL=C TZ=UTC SOURCE_DATE_EPOCH=1
 
 make clean
-make -j"$(nproc)"
-make install
+make install "$@"
