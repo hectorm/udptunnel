@@ -24,7 +24,10 @@ jobs:
       - name: 'Checkout'
         uses: 'actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b'
       - name: 'Build'
-        run: 'make all STATIC=1 && strip -s ./udptunnel'
+        run: |
+          make all STATIC=1
+          strip -s ./udptunnel
+          ./udptunnel --help'
       - name: 'Upload artifacts'
         uses: 'actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8'
         with:
