@@ -1,9 +1,19 @@
 PREFIX ?= /usr/local
 DESTDIR ?=
 BINDIR ?= $(PREFIX)/bin
-CFLAGS ?= -g -O2
+CFLAGS ?= -O2 \
+	-fPIC -fPIE \
+	-frandom-seed=42 \
+	-fstack-protector-strong \
+	$(if $(shell [ $$($(UNAME) -m) != x86_64 ] || echo YES),-fstack-clash-protection -fcf-protection=full)
+CPPFLAGS ?= -Wdate-time -D_FORTIFY_SOURCE=2
+LDFLAGS ?= -Wl,-pie -Wl,-z,defs -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack \
+	$(if $(STATIC),-static)
+SOURCE_DATE_EPOCH ?= 1
 INSTALL ?= install
+INSTALL_PROGRAM ?= $(INSTALL)
 PKG_CONFIG ?= pkg-config
+UNAME ?= uname
 
 ifeq ($(shell $(PKG_CONFIG) --exists libsystemd || echo NO),)
 CPPFLAGS += -DHAVE_SYSTEMD_SD_DAEMON_H $(shell $(PKG_CONFIG) --cflags libsystemd)
@@ -27,7 +37,11 @@ endif
 all: udptunnel
 
 install: udptunnel
-	@$(INSTALL) -v -d "$(DESTDIR)$(BINDIR)" && install -v -m 0755 udptunnel "$(DESTDIR)$(BINDIR)/udptunnel"
+	@$(INSTALL) -v -d "$(DESTDIR)$(BINDIR)"
+	@$(INSTALL_PROGRAM) -v -m 0755 udptunnel "$(DESTDIR)$(BINDIR)/udptunnel"
+
+install-strip:
+	$(MAKE) INSTALL_PROGRAM='$(INSTALL_PROGRAM) -s' install
 
 clean:
 	@$(RM) -vf $(OBJECTS) $(OBJECTS:%.o=%.d) udptunnel
