@@ -38,7 +38,7 @@
 #define sd_is_socket(a, b, c, d) -1
 #endif
 
-#if defined __GLIBC__ || (defined __APPLE__ && defined __MACH__)
+#if defined __linux__ || (defined __APPLE__ && defined __MACH__)
 #define HAVE_GETOPT_LONG
 #endif
 
