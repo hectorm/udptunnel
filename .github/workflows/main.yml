@@ -22,7 +22,7 @@ jobs:
       - name: "Install packages"
         run: "apk add --no-cache build-base pkgconf"
       - name: "Checkout"
-        uses: "actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332"
+        uses: "actions/checkout@d632683dd7b4114ad314bca15554477dd762a938"
       - name: "Build"
         run: |
           make all STATIC=1
