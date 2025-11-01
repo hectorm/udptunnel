@@ -29,7 +29,7 @@ jobs:
           strip -s ./udptunnel
           ./udptunnel --help
       - name: "Upload artifacts"
-        uses: "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+        uses: "actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4"
         with:
           name: "dist"
           path: "./udptunnel"
@@ -44,11 +44,11 @@ jobs:
       contents: "write"
     steps:
       - name: "Download artifacts"
-        uses: "actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0"
+        uses: "actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53"
         with:
           name: "dist"
           path: "assets"
       - name: "Publish"
-        uses: "hectorm/ghaction-release@066200d04c3549852afa243d631ea3dc93390f68"
+        uses: "hectorm/ghaction-release@d0426a7a369ce2c1ed615e1a583788b22745ccfe"
         with:
           assets-path: "./assets/"
